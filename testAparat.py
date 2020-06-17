@@ -5,7 +5,7 @@ from Aparat import Aparat
 class TestAparat(unittest.TestCase):
     def test_aparat_login(self):
         aparat = Aparat()
-        p = aparat.login('mahdi.khashan', '12345678')
+        p = aparat.login(USERNAME, PASSWORD)
         self.assertEqual(p.type, 'success')
 
     def test_aparat_profile(self):
