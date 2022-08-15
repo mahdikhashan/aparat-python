@@ -1,11 +1,16 @@
+import os
 import unittest
-from Aparat import Aparat
+from aparat import Aparat, Video
 
 
 class TestAparat(unittest.TestCase):
+    def setUp(self) -> None:
+        self.username = os.environ.get('APARAT_USERNAME')
+        self.password = os.environ.get('APARAT_PASSWORD')
+        
     def test_aparat_login(self):
         aparat = Aparat()
-        p = aparat.login(USERNAME, PASSWORD)
+        p = aparat.login(self.username, self.password)
         self.assertEqual(p.type, 'success')
 
     def test_aparat_profile(self):
@@ -48,7 +53,30 @@ class TestAparat(unittest.TestCase):
         self.assertEqual(v[0].id, '20977126')
 
     def test_aparat_upload_form(self):
-        pass
+        aparat = Aparat()
+        video_title = 'test_video'
+        video_desc = 'desc'
+        video_tags = ['tag1', 'tag2', 'tag3']
+        user = aparat.login(self.username, self.password)
+        form = aparat.uploadForm(user.username, user.ltoken)
+        video = aparat.uploadPost(
+            form=form,
+            video_path='test_video.mp4',
+            title=video_title,
+            category=10,
+            tags=video_tags,
+            allow_comment=True,
+            descreption=video_desc,
+            video_pass=False
+        )
+        self.assertIsInstance(video, Video)
+        self.assertNotEqual(video.uid, None)
+        self.assertNotEqual(video.uid, '')
+        video_action = video.watch_action.get('type')
+        self.assertEqual(video_action, 'watch')
+        self.assertEqual(video.title, video_title)
+        self.assertEqual(video.description, video_desc)
+        self.assertEqual(video.tag_str, ','.join(video_tags))
 
 
 if __name__ == "__main__":
