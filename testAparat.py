@@ -7,7 +7,7 @@ class TestAparat(unittest.TestCase):
     def setUp(self) -> None:
         self.username = os.environ.get('APARAT_USERNAME')
         self.password = os.environ.get('APARAT_PASSWORD')
-        
+
     def test_aparat_login(self):
         aparat = Aparat()
         p = aparat.login(self.username, self.password)
