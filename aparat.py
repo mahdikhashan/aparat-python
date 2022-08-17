@@ -26,6 +26,7 @@ class CommentList(object):
     """ Aparat CommentList Model
         TODO:
     """
+
     def __init__(self, dic):
         self.dic = dic
         for key in dic.keys():
@@ -36,6 +37,7 @@ class Category(object):
     """ Aparat Categories Model
         TODO:
     """
+
     def __init__(self, dic):
         self.dic = dic
         for key in dic.keys():
@@ -46,6 +48,7 @@ class Channel(object):
     """ Aparat User Model
         TODO:
     """
+
     def __init__(self, dic):
         self.dic = dic
         for key in dic.keys():
@@ -56,6 +59,7 @@ class ChannelInfo(object):
     """ Aparat User Info Model
         TODO:
     """
+
     def __init__(self):
         pass
 
@@ -64,6 +68,7 @@ class Video(object):
     """ Aparat Video Model
         TODO:
     """
+
     def __init__(self, dic):
         self.dic = dic
         for key in dic.keys():
@@ -74,6 +79,7 @@ class VideoList(Base):
     """ Aparat Video List Model
         TODO:
     """
+
     def __init__(self, dic):
         super().__init__(dic)
 
@@ -95,6 +101,7 @@ class Profile(Base):
     :param pic_m: medium sized user profile pic -> (url)
     :param pic_b: big sized user profile pic -> (url)
     """
+
     def __init__(self, dic):
         super().__init__(dic)
 
@@ -107,15 +114,16 @@ class Form(Base):
     :param directuploadAction: no information -> (url)
     :param frm-id: form id -> (int)
     """
+
     def __init__(self, dic):
         super().__init__(dic)
-
 
 
 class Aparat(object):
     """ Aparat Api Model
         TODO:
     """
+
     def __init__(self):
         pass
 
@@ -129,7 +137,8 @@ class Aparat(object):
 
     def login(self, luser, lpass):
         hashedpass = self.__sh1_mdf5__(lpass)
-        r = requests.get('https://www.aparat.com/etc/api/login/luser/{}/lpass/{}'.format(luser, hashedpass))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/login/luser/{}/lpass/{}'.format(luser, hashedpass))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['login']
@@ -139,7 +148,8 @@ class Aparat(object):
             return None
 
     def profile(self, username):
-        r = requests.get('https://www.aparat.com/etc/api/profile/username/{}'.format(username))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/profile/username/{}'.format(username))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['profile']
@@ -149,7 +159,8 @@ class Aparat(object):
             return None
 
     def userBySearch(self, text, perpage=10):
-        r = requests.get('https://www.aparat.com/etc/api/userBySearch/text/{}/perpage/{}'.format(text, perpage))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/userBySearch/text/{}/perpage/{}'.format(text, perpage))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['userbysearch']
@@ -162,7 +173,8 @@ class Aparat(object):
             return None
 
     def profileCategories(self, username):
-        r = requests.get('https://www.aparat.com/etc/api/profilecategories/username/{}'.format(username))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/profilecategories/username/{}'.format(username))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['profilecategories']
@@ -175,7 +187,8 @@ class Aparat(object):
             return None
 
     def video(self, videohash):
-        r = requests.get(' https://www.aparat.com/etc/api/video/videohash/{}'.format(videohash))
+        r = requests.get(
+            ' https://www.aparat.com/etc/api/video/videohash/{}'.format(videohash))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['video']
@@ -185,7 +198,8 @@ class Aparat(object):
             return None
 
     def categoryVideo(self, perpage=10, cat=1):
-        r = requests.get('https://www.aparat.com/etc/api/categoryVideos/cat/{}/perpage/{}'.format(cat, perpage))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/categoryVideos/cat/{}/perpage/{}'.format(cat, perpage))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['categoryvideos']
@@ -198,7 +212,8 @@ class Aparat(object):
             return None
 
     def videoByUser(self, username, perpage=10):
-        r = requests.get('https://www.aparat.com/etc/api/videoByUser/username/{}/perpage/{}'.format(username, perpage))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/videoByUser/username/{}/perpage/{}'.format(username, perpage))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['videobyuser']
@@ -211,7 +226,8 @@ class Aparat(object):
             return None
 
     def commentByVideos(self, videohash, perpage=10):
-        r = requests.get('https://www.aparat.com/etc/api/commentByVideos/videohash/{}/perpage/{}'.format(videohash, perpage))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/commentByVideos/videohash/{}/perpage/{}'.format(videohash, perpage))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['videobyuser']
@@ -224,7 +240,8 @@ class Aparat(object):
             return None
 
     def videoBySearch(self, text, perpage=10):
-        r = requests.get('https://www.aparat.com/etc/api/videoBySearch/text/{}/perpage/{}'.format(text, perpage))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/videoBySearch/text/{}/perpage/{}'.format(text, perpage))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['videobysearch']
@@ -237,7 +254,8 @@ class Aparat(object):
             return None
 
     def videoByTag(self, text):
-        r = requests.get('https://www.aparat.com/etc/api/videobytag/text/{}'.format(text))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/videobytag/text/{}'.format(text))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['videobytag']
@@ -250,7 +268,8 @@ class Aparat(object):
             return None
 
     def uploadForm(self, luser, ltoken):
-        r = requests.get('https://www.aparat.com/etc/api/uploadform/luser/{}/ltoken/{}'.format(luser, ltoken))
+        r = requests.get(
+            'https://www.aparat.com/etc/api/uploadform/luser/{}/ltoken/{}'.format(luser, ltoken))
         if r.status_code == 200:
             data = json.loads(r.text)
             dic = data['uploadform']
@@ -285,7 +304,7 @@ class Aparat(object):
 
         urllib_http = urllib3.PoolManager(ca_certs=certifi.where())
         resp = urllib_http.request("POST", url, fields={
-            "video": (video_path, video_data), 
+            "video": (video_path, video_data),
             **data
         })
 
