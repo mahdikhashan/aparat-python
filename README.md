@@ -14,7 +14,7 @@
 - [x] Video By User
 - [x] Comment By Video
 - [x] Video By Tag
-- [ ] Upload Video
+- [x] Upload Video
 - [ ] Download Video
 
 ## How to login
@@ -28,6 +28,24 @@ user = aparat.login('username', 'password')
 ```
 
 
+## How to upload a video
+
+```python
+from aparat import Aparat
+aparat = Aparat()
+user = aparat.login(username, password)
+form = aparat.uploadForm(user.username, user.ltoken)
+video = aparat.uploadPost(
+    form=form,
+    video_path='video.mp4',
+    title='title',
+    category=10,
+    tags=['tag1', 'tag2', 'tag3'],
+    allow_comment=True,
+    descreption='desc',
+    video_pass=False
+)
+```
 
 
 ## References:

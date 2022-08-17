@@ -4,9 +4,12 @@
    data: 1399/02/13
 """
 
-import requests
-import hashlib
+import os
 import json
+import hashlib
+import urllib3
+import certifi
+import requests
 
 
 class Base(object):
@@ -17,6 +20,96 @@ class Base(object):
         self.dic = dic
         for key in dic.keys():
             setattr(self, key, dic[key])
+
+
+class CommentList(object):
+    """ Aparat CommentList Model
+        TODO:
+    """
+    def __init__(self, dic):
+        self.dic = dic
+        for key in dic.keys():
+            setattr(self, key, dic[key])
+
+
+class Category(object):
+    """ Aparat Categories Model
+        TODO:
+    """
+    def __init__(self, dic):
+        self.dic = dic
+        for key in dic.keys():
+            setattr(self, key, dic[key])
+
+
+class Channel(object):
+    """ Aparat User Model
+        TODO:
+    """
+    def __init__(self, dic):
+        self.dic = dic
+        for key in dic.keys():
+            setattr(self, key, dic[key])
+
+
+class ChannelInfo(object):
+    """ Aparat User Info Model
+        TODO:
+    """
+    def __init__(self):
+        pass
+
+
+class Video(object):
+    """ Aparat Video Model
+        TODO:
+    """
+    def __init__(self, dic):
+        self.dic = dic
+        for key in dic.keys():
+            setattr(self, key, dic[key])
+
+
+class VideoList(Base):
+    """ Aparat Video List Model
+        TODO:
+    """
+    def __init__(self, dic):
+        super().__init__(dic)
+
+
+class Profile(Base):
+    """
+    Profile Object
+
+    :param id: user id -> (int)
+    :param username: user username -> (string)
+    :param name: user name -> (string)
+    :param pic: does user have profile pic or not -> (string)
+    :param ltokem: token when user need login e.x: video uploading -> (string)
+    :param banned: whether usesr is banned or not -> (string)
+    :param email: user email -> (string)
+    :param mobile_number: user mobile number -> (string)
+    :param movile_valid: validated user mobile number -> (string)
+    :param pic_s: small sized user profile pic -> (url)
+    :param pic_m: medium sized user profile pic -> (url)
+    :param pic_b: big sized user profile pic -> (url)
+    """
+    def __init__(self, dic):
+        super().__init__(dic)
+
+
+class Form(Base):
+    """
+    Form Action Object
+
+    :param formAction: data to post should be to this address -> (url)
+    :param directuploadAction: no information -> (url)
+    :param frm-id: form id -> (int)
+    """
+    def __init__(self, dic):
+        super().__init__(dic)
+
 
 
 class Aparat(object):
@@ -169,94 +262,42 @@ class Aparat(object):
         else:
             return None
 
-    def uploadPost(self, video, frm_id, data):
-        pass
+    def uploadPost(self, video_path: str, title: str, category: int, form: Form, tags: list[str] = None,
+                   allow_comment: bool = None, descreption: str = None, video_pass: bool = None):
+        url = form.formAction
+        with open(video_path, 'rb') as f:
+            video_data = f.read()
 
+        data = {
+            'frm-id': form.frm_id,
+            'data[title]': title,
+            'data[category]': category
+        }
 
-class CommentList(object):
-    """ Aparat CommentList Model
-        TODO:
-    """
-    def __init__(self, dic):
-        self.dic = dic
-        for key in dic.keys():
-            setattr(self, key, dic[key])
+        if tags:
+            data['data[tags]'] = ','.join(tags)
+        if allow_comment is not None:
+            data['data[comment]'] = allow_comment
+        if descreption is not None:
+            data['data[descr]'] = descreption
+        if video_pass is not None:
+            data['data[video_pass]'] = video_pass
 
+        urllib_http = urllib3.PoolManager(ca_certs=certifi.where())
+        resp = urllib_http.request("POST", url, fields={
+            "video": (video_path, video_data), 
+            **data
+        })
 
-class Category(object):
-    """ Aparat Categories Model
-        TODO:
-    """
-    def __init__(self, dic):
-        self.dic = dic
-        for key in dic.keys():
-            setattr(self, key, dic[key])
+        if resp.status != 200:
+            raise Exception("Upload failed")
 
+        try:
+            response_data = json.loads(resp.data.decode('utf-8'))
+        except Exception as ex:
+            raise Exception("Upload failed")
 
-class Channel(object):
-    """ Aparat User Model
-        TODO:
-    """
-    def __init__(self, dic):
-        self.dic = dic
-        for key in dic.keys():
-            setattr(self, key, dic[key])
-
-
-class ChannelInfo(object):
-    """ Aparat User Info Model
-        TODO:
-    """
-    def __init__(self):
-        pass
-
-
-class Video(object):
-    """ Aparat Video Model
-        TODO:
-    """
-    def __init__(self, dic):
-        self.dic = dic
-        for key in dic.keys():
-            setattr(self, key, dic[key])
-
-
-class VideoList(Base):
-    """ Aparat Video List Model
-        TODO:
-    """
-    def __init__(self, dic):
-        super().__init__(dic)
-
-
-class Profile(Base):
-    """
-    Profile Object
-
-    :param id: user id -> (int)
-    :param username: user username -> (string)
-    :param name: user name -> (string)
-    :param pic: does user have profile pic or not -> (string)
-    :param ltokem: token when user need login e.x: video uploading -> (string)
-    :param banned: whether usesr is banned or not -> (string)
-    :param email: user email -> (string)
-    :param mobile_number: user mobile number -> (string)
-    :param movile_valid: validated user mobile number -> (string)
-    :param pic_s: small sized user profile pic -> (url)
-    :param pic_m: medium sized user profile pic -> (url)
-    :param pic_b: big sized user profile pic -> (url)
-    """
-    def __init__(self, dic):
-        super().__init__(dic)
-
-
-class Form(Base):
-    """
-    Form Action Object
-
-    :param formAction: data to post should be to this address -> (url)
-    :param directuploadAction: no information -> (url)
-    :param frm-id: form id -> (int)
-    """
-    def __init__(self, dic):
-        super().__init__(dic)
+        videohash = response_data['uploadpost']['uid']
+        return self.video(videohash)
+    
+        
