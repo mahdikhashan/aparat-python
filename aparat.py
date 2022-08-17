@@ -281,8 +281,18 @@ class Aparat(object):
         else:
             return None
 
-    def uploadPost(self, video_path: str, title: str, category: int, form: Form, tags: list[str] = None,
-                   allow_comment: bool = None, descreption: str = None, video_pass: bool = None):
+    def uploadPost(
+            self, 
+            video_path: str, 
+            title: str, 
+            category: int, 
+            form: Form, 
+            tags: 'list[str]' = None,
+            allow_comment: bool = None, 
+            descreption: str = None, 
+            video_pass: bool = None
+        ):
+
         url = form.formAction
         with open(video_path, 'rb') as f:
             video_data = f.read()
