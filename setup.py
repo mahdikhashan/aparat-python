@@ -21,7 +21,7 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    packages = ['aparat', 'aparat.test'],
+    packages = ['aparat'],
     python_requires = ">=3.6",
     install_requires=[
        "certifi",
