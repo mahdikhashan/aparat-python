@@ -32,7 +32,10 @@ user = aparat.login('username', 'password')
 
 ```python
 from aparat import Aparat
+
+
 aparat = Aparat()
+
 user = aparat.login(username, password)
 form = aparat.uploadForm(user.username, user.ltoken)
 video = aparat.uploadPost(
