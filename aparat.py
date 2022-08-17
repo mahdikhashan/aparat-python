@@ -299,5 +299,3 @@ class Aparat(object):
 
         videohash = response_data['uploadpost']['uid']
         return self.video(videohash)
-    
-        
