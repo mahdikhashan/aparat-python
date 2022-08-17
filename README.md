@@ -24,6 +24,7 @@ from aparat import Aparat
 
 
 aparat = Aparat()
+
 user = aparat.login('username', 'password')
 ```
 
@@ -38,6 +39,7 @@ aparat = Aparat()
 
 user = aparat.login(username, password)
 form = aparat.uploadForm(user.username, user.ltoken)
+
 video = aparat.uploadPost(
     form=form,
     video_path='video.mp4',
