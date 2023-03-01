@@ -53,5 +53,8 @@ video = aparat.uploadPost(
 ```
 
 
-## References:
-[1] https://en.wikipedia.org/wiki/Aparat
+## Contributors
+
+<a href="https://github.com/mahdikhashan/aparat-python/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mahdikhashan/aparat-python" />
+</a>
